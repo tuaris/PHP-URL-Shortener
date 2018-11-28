@@ -1,0 +1,37 @@
+#shortener{
+	display: block;
+	width: 555px;
+	margin: auto;
+}
+#shortener  label{
+	display: none;
+	text-align: center;
+	padding-right: 4em;
+	font-size: 2.5em;
+}
+#shortener #longurl{
+	width: 400px;
+}
+#shortener #submitb{
+	width: auto;
+	padding-bottom: 1.5em;
+}
+#shortener input{
+	line-height: 1.5em;
+	height: 1.5em;
+	font-size: 1.5em;
+}
+#shortener::before{
+	content: url(logo.png);
+	display: block;
+	margin: auto;
+	width: 555px;
+	height: 476px;
+}
+#topheading{
+	text-align: center;
+	font-size: 6em;
+	padding-right: 1em;
+	margin-bottom: 10px;
+	font-family: cursive;
+}
