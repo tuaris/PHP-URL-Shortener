@@ -21,7 +21,11 @@ if(CACHE)
 	$long_url = file_get_contents(CACHE_DIR . $shortened_id);
 	if(empty($long_url) || !preg_match('|^https?://|', $long_url))
 	{
-		$long_url = mysql_result(mysql_query('SELECT long_url FROM ' . DB_TABLE . ' WHERE id="' . mysql_real_escape_string($shortened_id) . '"'), 0, 0);
+		$result = $DB->query('SELECT long_url FROM ' . DB_TABLE . ' WHERE id="' . $DB->real_escape_string($shortened_id) . '"');
+		$result->data_seek(0);
+		$row = $result->fetch_row();
+		$long_url = $row[0];
+
 		@mkdir(CACHE_DIR, 0777);
 		$handle = fopen(CACHE_DIR . $shortened_id, 'w+');
 		fwrite($handle, $long_url);
@@ -30,12 +34,15 @@ if(CACHE)
 }
 else
 {
-	$long_url = mysql_result(mysql_query('SELECT long_url FROM ' . DB_TABLE . ' WHERE id="' . mysql_real_escape_string($shortened_id) . '"'), 0, 0);
+	$result = $DB->query('SELECT long_url FROM ' . DB_TABLE . ' WHERE id="' . $DB->real_escape_string($shortened_id) . '"');
+	$result->data_seek(0);
+	$row = $result->fetch_row();
+	$long_url = $row[0];
 }
 
 if(TRACK)
 {
-	mysql_query('UPDATE ' . DB_TABLE . ' SET referrals=referrals+1 WHERE id="' . mysql_real_escape_string($shortened_id) . '"');
+	$DB->query('UPDATE ' . DB_TABLE . ' SET referrals=referrals+1 WHERE id="' . $DB->real_escape_string($shortened_id) . '"');
 }
 
 header('HTTP/1.1 301 Moved Permanently');
